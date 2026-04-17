@@ -47,7 +47,7 @@ function Profile() {
   }
 
   // Live preview — how many products match current form
-  const previewProfile = { ...form, monthlyCapacity: Number(form.monthlyCapacity) };
+  
   const matchCount = form.riskTolerance && form.investmentHorizon && form.monthlyCapacity && form.liquidityPreference
     ? getRecommendations(products).length
     : 0;

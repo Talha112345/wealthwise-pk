@@ -47,7 +47,7 @@ function ProductDetail() {
   const [investAmount, setInvestAmount] = useState("");
   const [years, setYears] = useState(5);
   const [added, setAdded] = useState(false);
-  const [showCompare, setShowCompare] = useState(false);
+  const [showCompare, setShowCompare] = useState(false); // eslint-disable-line
 
   const isInPortfolio = portfolio.items.some(item => String(item.id) === String(id));
 
