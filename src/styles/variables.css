@@ -1,0 +1,37 @@
+:root {
+  /* Core backgrounds */
+  --primary: #0e0e0e;
+  --secondary: #1a1a1a;
+  --accent: #242424;
+  --border: #2e2e2e;
+  --card-bg: #1a1a1a;
+
+  /* Finance accent colors */
+  --highlight: #c9a84c;      /* gold */
+  --highlight-hover: #e2c06a;
+  --positive: #00c853;       /* market green */
+  --negative: #ff3d57;       /* market red */
+
+  /* Risk colors */
+  --risk-low: #00c853;
+  --risk-medium: #ffab00;
+  --risk-high: #ff3d57;
+
+  /* Text */
+  --text: #f0f0f0;
+  --text-muted: #888888;
+  --text-dark: #1a1a1a;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 48px;
+
+  /* Shape */
+  --radius: 8px;
+  --radius-sm: 4px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-gold: 0 4px 24px rgba(201,168,76,0.15);
+}
