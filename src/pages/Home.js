@@ -10,10 +10,19 @@ function Home() {
 
   // Featured products — pick the highest return from each category
   const categories = ["savings", "investment", "crypto", "insurance"];
-  const featured = categories.map(cat => {
-    const inCategory = products.filter(p => p.category === cat);
-    return inCategory.reduce((best, p) => p.expectedReturn > best.expectedReturn ? p : best);
-  });
+  let featured = [];
+for (let i = 0; i < categories.length; i++) {
+  let cat = categories[i];
+  let best = null;
+  for (let j = 0; j < products.length; j++) {
+    if (products[j].category === cat) {
+      if (best === null || products[j].expectedReturn > best.expectedReturn) {
+        best = products[j];
+      }
+    }
+  }
+  featured.push(best);
+}
 
   // Quick stats
   const totalProducts = products.length;

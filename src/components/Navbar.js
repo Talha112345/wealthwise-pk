@@ -13,7 +13,7 @@ function Navbar() {
           {[
             { name: "BTC/PKR", value: "₨ 8,842,300", change: "+2.4%", up: true },
             { name: "Gold", value: "₨ 24,150/g", change: "+0.8%", up: true },
-            { name: "KSE-100", value: "78,432", change: "-0.3%", up: false },
+            { name: "KSE-100", value: "108,432", change: "-0.3%", up: false },
             { name: "USD/PKR", value: "₨ 278.50", change: "+0.1%", up: true },
             { name: "ETH/PKR", value: "₨ 612,400", change: "+1.9%", up: true },
             { name: "T-Bills 3M", value: "21.5%", change: "stable", up: true },

@@ -46,13 +46,9 @@ const riskMapping = {
  * high risk:   12% - 27%
  */
 function getExpectedReturn(riskLevel, productId) {
-  if (riskLevel === "low") {
-    return parseFloat((3 + (productId % 5)).toFixed(1));
-  } else if (riskLevel === "medium") {
-    return parseFloat((7 + (productId % 5)).toFixed(1));
-  } else {
-    return parseFloat((12 + (productId % 15)).toFixed(1));
-  }
+ let returns = [3, 4, 5, 6, 7];
+let index = productId % 5;
+return returns[index];
 }
 
 /**

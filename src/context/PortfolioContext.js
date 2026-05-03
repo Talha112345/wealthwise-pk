@@ -69,10 +69,12 @@ function PortfolioProvider({ children }) {
     const totalInvested = items.reduce((sum, item) => sum + item.allocatedAmount, 0);
 
     // Weighted return — each product weighted by its share of total
-    const weightedReturn = items.reduce((sum, item) => {
-      const share = item.allocatedAmount / totalInvested;
-      return sum + (share * item.expectedReturn);
-    }, 0);
+   let weightedReturn = 0;
+for (let i = 0; i < items.length; i++) {
+  let share = items[i].allocatedAmount / totalInvested;
+  weightedReturn = weightedReturn + (share * items[i].expectedReturn);
+}
+weightedReturn = parseFloat(weightedReturn.toFixed(2));
 
     // How much money is in each risk category
     const riskTotals = { low: 0, medium: 0, high: 0 };

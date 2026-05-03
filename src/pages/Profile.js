@@ -7,51 +7,114 @@ function Profile() {
   const { profile, updateProfile, getRecommendations } = useUserProfile();
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({
-    riskTolerance: profile?.riskTolerance || "",
-    investmentHorizon: profile?.investmentHorizon || "",
-    monthlyCapacity: profile?.monthlyCapacity || "",
-    liquidityPreference: profile?.liquidityPreference || "",
-    investmentGoal: profile?.investmentGoal || ""
-  });
+  // I am storing the form data in state
+// If the user already has a profile saved, I load it in, otherwise start with empty strings
+let savedRisk = "";
+let savedHorizon = "";
+let savedCapacity = "";
+let savedLiquidity = "";
+let savedGoal = "";
 
-  const [errors, setErrors] = useState({});
-  const [saved, setSaved] = useState(false);
+if (profile !== null) {
+  savedRisk = profile.riskTolerance;
+  savedHorizon = profile.investmentHorizon;
+  savedCapacity = profile.monthlyCapacity;
+  savedLiquidity = profile.liquidityPreference;
+  savedGoal = profile.investmentGoal;
+}
 
-  function handleChange(field, value) {
-    setForm(prev => ({ ...prev, [field]: value }));
-    // Clear error for this field when user changes it
-    setErrors(prev => ({ ...prev, [field]: "" }));
-    setSaved(false);
+const [form, setForm] = useState({
+  riskTolerance: savedRisk,
+  investmentHorizon: savedHorizon,
+  monthlyCapacity: savedCapacity,
+  liquidityPreference: savedLiquidity,
+  investmentGoal: savedGoal
+});
+
+// This stores any error messages for each field
+const [errors, setErrors] = useState({});
+
+// This tracks whether the form was saved successfully
+const [saved, setSaved] = useState(false);
+
+// This function runs every time the user changes any field in the form
+function handleChange(field, value) {
+  // Update the form with the new value for that field
+  let updatedForm = { ...form };
+  updatedForm[field] = value;
+  setForm(updatedForm);
+
+  // Clear the error for that field since the user is fixing it
+  let updatedErrors = { ...errors };
+  updatedErrors[field] = "";
+  setErrors(updatedErrors);
+
+  // Reset the saved message since the form changed
+  setSaved(false);
+}
+
+// This function checks if all fields are filled correctly
+function validate() {
+  let newErrors = {};
+
+  if (form.riskTolerance === "") {
+    newErrors.riskTolerance = "Please select your risk tolerance";
   }
 
-  function validate() {
-    const newErrors = {};
-    if (!form.riskTolerance) newErrors.riskTolerance = "Please select your risk tolerance";
-    if (!form.investmentHorizon) newErrors.investmentHorizon = "Please select your investment horizon";
-    if (!form.monthlyCapacity || Number(form.monthlyCapacity) < 1000)
-      newErrors.monthlyCapacity = "Minimum investment capacity is Rs. 1,000";
-    if (!form.liquidityPreference) newErrors.liquidityPreference = "Please select your liquidity preference";
-    if (!form.investmentGoal) newErrors.investmentGoal = "Please select your investment goal";
-    return newErrors;
+  if (form.investmentHorizon === "") {
+    newErrors.investmentHorizon = "Please select your investment horizon";
   }
 
-  function handleSubmit() {
-    const newErrors = validate();
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-    updateProfile({ ...form, monthlyCapacity: Number(form.monthlyCapacity) });
-    setSaved(true);
+  if (form.monthlyCapacity === "" || Number(form.monthlyCapacity) < 1000) {
+    newErrors.monthlyCapacity = "Minimum investment capacity is Rs. 1,000";
   }
 
-  // Live preview — how many products match current form
-  
-  const matchCount = form.riskTolerance && form.investmentHorizon && form.monthlyCapacity && form.liquidityPreference
-    ? getRecommendations(products).length
-    : 0;
+  if (form.liquidityPreference === "") {
+    newErrors.liquidityPreference = "Please select your liquidity preference";
+  }
 
+  if (form.investmentGoal === "") {
+    newErrors.investmentGoal = "Please select your investment goal";
+  }
+
+  return newErrors;
+}
+
+// This function runs when the user clicks Save Profile
+function handleSubmit() {
+  // First check if there are any errors
+  let newErrors = validate();
+  let errorCount = Object.keys(newErrors).length;
+
+  // If there are errors, show them and stop
+  if (errorCount > 0) {
+    setErrors(newErrors);
+    return;
+  }
+
+  // No errors, so save the profile
+  // Convert monthlyCapacity to a number before saving
+  let profileToSave = { ...form };
+  profileToSave.monthlyCapacity = Number(form.monthlyCapacity);
+  updateProfile(profileToSave);
+
+  // Show the green "Profile Saved" button
+  setSaved(true);
+}
+
+// This counts how many products match the form in real time
+// Only runs if the 4 main fields are filled
+let matchCount = 0;
+
+if (
+  form.riskTolerance !== "" &&
+  form.investmentHorizon !== "" &&
+  form.monthlyCapacity !== "" &&
+  form.liquidityPreference !== ""
+) {
+  let matched = getRecommendations(products);
+  matchCount = matched.length;
+}
   const inputStyle = {
     width: "100%",
     padding: "10px",
